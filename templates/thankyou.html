@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Thank You</title>
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0;font-family:Arial,Helvetica,sans-serif}
+    body{
+      min-height:100vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      background:linear-gradient(180deg,#ffffff 0%,#f4f6fb 100%);
+      padding:16px;
+    }
+    .card{
+      width:100%;
+      max-width:420px;
+      background:#fff;
+      border-radius:20px;
+      padding:28px 22px;
+      text-align:center;
+      box-shadow:0 18px 50px rgba(0,0,0,.10);
+      border:1px solid #eef2f7;
+    }
+    .tick{
+      width:72px;
+      height:72px;
+      border-radius:50%;
+      margin:0 auto 16px;
+      background:linear-gradient(90deg,#fffc00,#fff176);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-size:34px;
+      font-weight:700;
+      color:#111827;
+    }
+    h1{font-size:28px;margin-bottom:10px;color:#111827}
+    p{color:#6b7280;line-height:1.5}
+    .name{margin-top:12px;font-weight:700;color:#111827}
+    .small{margin-top:16px;font-size:13px;color:#6b7280}
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="tick">✓</div>
+    <h1>Thanks!</h1>
+    <p>Your form has been submitted successfully.</p>
+    <div class="name">{{ name }}</div>
+    <div class="small">
+  Redirecting to Google in <span id="count">5</span> seconds...
+</div>
+  </div>
+
+<script>
+let seconds = 5;
+
+const timer = setInterval(() => {
+    seconds--;
+    document.getElementById("count").textContent = seconds;
+
+    if (seconds <= 0) {
+        clearInterval(timer);
+    }
+}, 1000);
+
+setTimeout(() => {
+    window.location.href = "https://www.google.com";
+}, 5000);
+</script>
+
+</body>
+</html>
