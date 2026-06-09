@@ -5,9 +5,12 @@ import os
 import re
 import uuid
 import logging
+from flask import session
 from datetime import datetime
 
 app = Flask(__name__)
+app.secret_key = "deepak_secure_key_2026"
+ADMIN_PASSWORD = "1234"
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 DB_PATH = os.path.join(BASE_DIR, "forms.db")
@@ -62,6 +65,25 @@ def allowed_file(filename):
     allowed = {"png", "jpg", "jpeg", "webp", "gif"}
     return "." in filename and filename.rsplit(".", 1)[1].lower() in allowed
 
+
+@app.route("/login", methods=["GET", "POST"])
+def login():
+
+    error = None
+
+    if request.method == "POST":
+        password = request.form.get("password")
+
+        if password == ADMIN_PASSWORD:
+            session["logged_in"] = True
+            return redirect("/dashboard")
+
+        error = "Wrong Password!"
+
+    return render_template(
+        "login.html",
+        error=error
+    )
 
 @app.route("/")
 def index():
@@ -151,6 +173,9 @@ def submit():
 
 @app.route("/dashboard")
 def dashboard():
+    if not session.get("logged_in"):
+        return redirect("/login")
+
     conn = sqlite3.connect(DB_PATH)
     conn.row_factory = sqlite3.Row
     cur = conn.cursor()
@@ -159,6 +184,10 @@ def dashboard():
     conn.close()
     return render_template("dashboard.html", rows=rows)
 
+@app.route("/logout")
+def logout():
+   session.clear()
+   return redirect("/login")
 
 @app.route("/delete/<int:id>")
 def delete(id):

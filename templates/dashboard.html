@@ -41,6 +41,21 @@
     @media (max-width: 820px){
       .grid,.stats{grid-template-columns:1fr}
     }
+
+   
+  .logout-btn{
+    background:#facc15;
+    color:black;
+    padding:10px 18px;
+    border-radius:8px;
+    text-decoration:none;
+    font-weight:bold;
+}
+
+.logout-btn:hover{
+    opacity:.9;
+}
+
   </style>
 </head>
 <body>
@@ -48,9 +63,10 @@
     <div class="head">
       <div>
         <h1>Submissions Dashboard</h1>
-        <p>All form entries saved in local backend.</p>
+        <p>All form entries saved in local backend</p>
       </div>
       <a class="btn" href="/">Open Form</a>
+ <a href="/logout" class="logout-btn">Logout</a>
     </div>
 
     <div class="stats">
