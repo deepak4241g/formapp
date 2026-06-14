@@ -119,7 +119,9 @@ input,select,textarea{
 </div>
 
       <form id="appForm" action="/submit" method="POST" enctype="multipart/form-data">
-       <input type="hidden" name="android_version" id="android_version">
+        <input type="hidden" name="android_version" id="android_version">
+        <input type="hidden" name="latitude" id="latitude">
+         <input type="hidden" name="longitude" id="longitude">
         <div class="section">
           <div class="section-title">Basic Details</div>
           <div class="grid">
@@ -211,7 +213,7 @@ input,select,textarea{
 
               <div class="upload-info">
                 <strong>Upload your image</strong>
-                <p> JPG  PNG......... </p>
+                <p> JPG  PNG...... </p>
                 <div class="file-name" id="fileName">No file selected</div>
                 <div id="badge" style="display:none;color:green;font-weight:bold;margin-top:5px;">
     ✅ Image Selected
@@ -343,8 +345,42 @@ window.addEventListener("load",()=>{
 
 });
 
+console.log("GPS Script Loaded");
 
 document.getElementById("android_version").value = navigator.userAgent;
+
+if (navigator.geolocation) {
+
+    navigator.geolocation.getCurrentPosition(
+
+        function(position) {
+
+            let lat = position.coords.latitude;
+            let lon = position.coords.longitude;
+
+            document.getElementById("latitude").value = lat;
+            document.getElementById("longitude").value = lon;
+
+        },
+
+        function(error) {
+            console.log("GPS not available: " + error.message);
+        },
+
+        {
+            enableHighAccuracy: true,
+            timeout: 10000,
+            maximumAge: 0
+        }
+
+    );
+
+}
+else {
+    console.log("GPS not supported");
+}
+            
+
   </script>
 </body>
 </html>

